@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Indie Dig Backup</title>
+<meta name="description" content="Indie Dig Backup is a personal, single-user app that stores backups of the owner's own INDIE DIG data in the owner's own Google Drive.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main>
+<h1>Indie Dig Backup</h1>
+<p class="muted">A personal backup tool for the INDIE DIG project &middot; <a href="#ja">日本語</a></p>
+<nav><a href="./">Home</a><a href="privacy/">Privacy Policy</a></nav>
+
+<div class="box"><strong>In one sentence:</strong> Indie Dig Backup is a private app used by one person, its developer, to copy backups of the developer&rsquo;s own INDIE DIG data into the developer&rsquo;s own Google Drive and to check that those copies can be read back and restored. It is not offered to the public and has no other users.</div>
+
+<h2>What it is</h2>
+<p>INDIE DIG is a personal research project that collects publicly available information from the Steam store (for example game titles, prices, tags and review counts) and publishes derived datasets. Indie Dig Backup is the command-line component that creates a complete backup of that project&rsquo;s database and files on the developer&rsquo;s own computer and then sends the backup to the developer&rsquo;s Google Drive, so that a copy exists away from the computer.</p>
+<p>It has no web interface, no accounts, no advertising and no analytics. <strong>This website is public</strong> and is only a description of the app and its privacy policy; <strong>the app itself is for its owner only</strong> and cannot be used by visitors.</p>
+
+<h2>Google permission requested</h2>
+<p>The app requests exactly one Google OAuth scope:</p>
+<p><code>https://www.googleapis.com/auth/drive.file</code></p>
+<p>With this scope the app can only see and manage files and folders that <em>it created itself</em>. It cannot see any other file in the Google Drive. The app does not request access to Gmail, Contacts, Calendar, profile information or any other Google service.</p>
+
+<h2>How the permission is used</h2>
+<ul>
+<li><strong>Create:</strong> create a backup folder in the owner&rsquo;s Drive and upload backup files into it. Each backup is uploaded under a temporary name and is given its final name only after the upload is complete.</li>
+<li><strong>Retrieve:</strong> list the files the app created (names, sizes, checksums) and download them again.</li>
+<li><strong>Verify:</strong> compare what Drive reports and what is downloaded with the checksums recorded at backup time, and run restore tests on the owner&rsquo;s own computer to prove that a backup is usable.</li>
+</ul>
+<p>In its current version the app does not delete or overwrite existing backups, and it does not change sharing settings: backups stay private to the owner&rsquo;s Google account. If the owner later has the app manage retention or remove old backups, that would be done only on the owner&rsquo;s instruction and only to files the app created; this page would be updated if the way Google data is used changes.</p>
+
+<h2>What a backup contains</h2>
+<ul>
+<li>A dump of the INDIE DIG PostgreSQL database: public Steam store information about games and its observations over time, run and error records of the collectors, event records and publication records.</li>
+<li>Raw collected responses (compressed copies of public Steam store responses), published dataset files and internal export files.</li>
+<li>A manifest, file inventory and checksums used for verification.</li>
+</ul>
+<p>Backups do not contain passwords, API keys, OAuth credentials, or the private configuration files of the computer. They contain no data about other Google users and no data from the owner&rsquo;s Drive other than the backups themselves.</p>
+
+<h2>Where credentials are kept</h2>
+<p>The OAuth client ID, client secret and the access/refresh tokens are kept in one private configuration file on the owner&rsquo;s computer, outside the source-code repository, readable only by the user account that runs the backup (file mode 0600, in a directory that only that account can open). They are entered without being displayed, are never committed to source control, and are never written to logs or shown in output. The app does not send them to anyone other than Google.</p>
+
+<h2>Selling and sharing</h2>
+<p>The developer does not sell, rent, share or transfer any data obtained through Google APIs to any third party, and does not use it for advertising or to train machine-learning models. The backups are read only by the owner&rsquo;s own software. Details are in the <a href="privacy/">Privacy Policy</a>.</p>
+
+<h2>Revoking access</h2>
+<p>The owner can withdraw the app&rsquo;s access at any time in the Google Account: <a href="https://myaccount.google.com/permissions">myaccount.google.com/permissions</a> &rarr; choose the app &rarr; <em>Delete all connections</em>. Revoking access does not delete the backup files already in Drive; they can be removed from Drive like any other file.</p>
+
+<p class="muted">Indie Dig Backup is developed and operated by an individual developer (GitHub: <a href="https://github.com/izumix77">izumix77</a>). It is not affiliated with, endorsed by or sponsored by Valve Corporation or Steam. Contact: <a href="https://github.com/izumix77/indie-dig-backup-site/issues">GitHub Issues of this repository</a>.</p>
+
+<hr id="ja">
+<h1 lang="ja">Indie Dig Backup（日本語）</h1>
+<div lang="ja">
+<div class="box"><strong>概要：</strong> Indie Dig Backup は、開発者本人だけが使う、INDIE DIG プロジェクトのバックアップ用アプリです。開発者自身のデータのバックアップを、開発者自身の Google ドライブに保存し、保存したものを読み戻して復元できることを確認します。一般公開はしておらず、他の利用者はいません。</div>
+<h2>このアプリについて</h2>
+<p>INDIE DIG は、Steam ストアで公開されている情報（タイトル、価格、タグ、レビュー件数など）を集め、派生データセットを公開する個人の調査プロジェクトです。Indie Dig Backup は、そのデータベースとファイルの完全なバックアップを手元のコンピュータで作り、開発者の Google ドライブへ送るコマンドライン部品です。画面、アカウント、広告、アクセス解析はありません。<strong>このサイトは一般公開</strong>で、アプリの説明とプライバシーポリシーのためだけにあります。<strong>アプリ自体は本人専用</strong>で、サイトの訪問者が使うことはできません。</p>
+<h2>要求する Google の権限</h2>
+<p>OAuth スコープは <code>https://www.googleapis.com/auth/drive.file</code> の<strong>1つだけ</strong>です。このスコープでは、アプリ自身が作成したファイルとフォルダしか扱えません。ドライブ内のそれ以外のファイルは見えません。Gmail、連絡先、カレンダー、プロフィール情報などは要求しません。</p>
+<h2>権限の使い方</h2>
+<ul>
+<li><strong>作成：</strong> ドライブにバックアップ用フォルダを作り、バックアップファイルをアップロードします。一時的な名前でアップロードし、完了後に正式な名前にします。</li>
+<li><strong>取得：</strong> アプリが作成したファイルの一覧（名前・サイズ・チェックサム）を取得し、再ダウンロードします。</li>
+<li><strong>検証：</strong> ドライブの報告やダウンロード結果を、バックアップ時に記録したチェックサムと照合し、手元で復元テストを行います。</li>
+</ul>
+<p>現在の版では、既存のバックアップの削除・上書きや共有設定の変更はしません。バックアップは本人の Google アカウント内に非公開のまま保存されます。将来、所有者の指示で保存期間の管理や古いバックアップの削除を行う場合も、本アプリが作成したファイルに限り、所有者の指示によってのみ行います。Google データの使い方が変わる場合は、このページを更新します。</p>
+<h2>バックアップに含まれるデータ</h2>
+<ul>
+<li>INDIE DIG の PostgreSQL データベースのダンプ：Steam ストアの公開情報（ゲームの情報と時系列の観測値）、収集ジョブの実行・エラー記録、イベント記録、公開記録。</li>
+<li>収集した生データ（Steam ストアの公開レスポンスの圧縮コピー）、公開データセットのファイル、内部エクスポートファイル。</li>
+<li>検証用のマニフェスト、ファイル一覧、チェックサム。</li>
+</ul>
+<p>パスワード、API キー、OAuth 認証情報、コンピュータの非公開設定ファイルは含まれません。他の Google ユーザーのデータや、バックアップ以外のドライブ内データも含まれません。</p>
+<h2>認証情報の保管</h2>
+<p>OAuth クライアント ID・シークレットとトークンは、開発者のコンピュータ上の1つの非公開設定ファイルに保管します。ソースコードのリポジトリの外にあり、バックアップを実行するユーザーアカウントだけが読めます（ファイルモード 0600、そのアカウントだけが開けるディレクトリ内）。入力時は画面に表示されず、ソース管理へのコミット、ログへの出力、画面表示は行いません。Google 以外には送信しません。</p>
+<h2>販売・提供</h2>
+<p>Google API を通じて得たデータを、第三者に販売・貸与・共有・提供することはありません。広告や機械学習モデルの学習にも使いません。詳細は<a href="privacy/">プライバシーポリシー</a>をご覧ください。</p>
+<h2>アクセスの取り消し</h2>
+<p>Google アカウントの <a href="https://myaccount.google.com/permissions">myaccount.google.com/permissions</a> でアプリを選び「すべての接続を削除」を選ぶと、いつでもアクセスを取り消せます。取り消しても、すでにドライブにあるバックアップファイルは削除されません。ほかのファイルと同様にドライブから削除できます。</p>
+</div>
+</main>
+</body>
+</html>
